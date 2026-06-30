@@ -6,7 +6,8 @@ use App\Entity\Oeuvre;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class OeuvreCrudController extends AbstractCrudController
@@ -21,9 +22,17 @@ class OeuvreCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             
-            TextField::new('nom', 'Nom de l\'œuvre'),
-            TextEditorField::new('description', 'Description'),
             
+            TextField::new('titre', 'Titre de l\'œuvre'),
+            
+           
+            ImageField::new('image', 'Image')
+                ->setUploadDir('public/uploads/oeuvres')
+                ->setBasePath('uploads/oeuvres'),
+                
+            IntegerField::new('numCarrousel', 'Position Carrousel'),
+            
+            AssociationField::new('prestation', 'Prestation liée'),
         ];
     }
 }

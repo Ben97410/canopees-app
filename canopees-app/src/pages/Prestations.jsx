@@ -1,9 +1,23 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 export default function Prestations() {
   const [activeModale, setActiveModale] = useState(null);
+  const [dataApi, setDataApi] = useState([]);
 
-  const modalesData = [
+
+/* Initialisation de l'api */
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/prestations')
+      .then(res => res.json())
+      .then(data => setDataApi(data))
+      .catch(err => console.log("API en attente, le site fonctionne en dur."));
+  }, []);
+
+
+/* Modales */
+
+const modalesData = [
     { id: "modaleEntretien", title: "Nos réalisations : Entretien", images: ["gazon tondu.jpg", "gazon distance.jpg", "arbre et gazon 2.jpg", "arbre et gazon.jpg"] },
     { id: "modaleConception", title: "Nos réalisations : Conception", images: ["conception modale 2 garden 2.jpg", "conception modale 2 garden.jpg", "conception modale 2.jpg", "conception modale 3 garden.jpg"] },
     { id: "modaleTaille", title: "Nos réalisations : Taille des haies", images: ["conception modale 3 garden.jpg", "dame qui coupe modale 3.jpg", "chantier terminer modale 3.jpg", "haie labyrinthe modale 3.jpg"] },
@@ -11,6 +25,7 @@ export default function Prestations() {
     { id: "modaleAbattage", title: "Nos réalisations : Abattage", images: ["abattagelidake54.jpg", "abattagemodale51.jpg", "abattagemodale52.jpg", "abattagemodale53.jpg"] },
     { id: "modaleDechets", title: "Nos réalisations : Valorisation des déchets", images: ["modale6compostage.jpg", "modale6compostage2.jpg", "modale6compostage3.jpg", "modale6compostage4.jpg"] }
   ];
+
 
   return (
     <main className="page-prestations">

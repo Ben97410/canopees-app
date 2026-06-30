@@ -42,6 +42,12 @@ class Ouvrier
         $this->demandesDevis = new ArrayCollection();
     }
 
+    
+    public function __toString(): string
+    {
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

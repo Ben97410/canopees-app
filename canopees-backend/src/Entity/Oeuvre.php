@@ -36,6 +36,12 @@ class Oeuvre
     #[Groups(['oeuvre:read'])]
     private ?Prestation $prestation = null;
 
+    
+    public function __toString(): string
+    {
+        return $this->titre ?? 'Oeuvre sans titre';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
