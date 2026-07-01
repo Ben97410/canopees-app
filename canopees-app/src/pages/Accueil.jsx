@@ -1,9 +1,22 @@
 import "../sass/main.scss";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import $ from "jquery";
 
 export default function Accueil() {
-  useEffect(() => {
+  const [oeuvres, setOeuvres] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+
+useEffect(() => {
+    fetch('http://localhost:8000/api/oeuvres')
+      .then((response) => response.json())
+      .then((data) => setOeuvres(data))
+      .catch((error) => console.error("Erreur API :", error));
+  }, []);
+
+
+useEffect(() => {
+
     // Gestion du carrousel principal
     const $carousel = $(".carousel");
     if ($carousel.length > 0) {
