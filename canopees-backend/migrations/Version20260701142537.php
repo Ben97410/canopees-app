@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260630074320 extends AbstractMigration
+final class Version20260701142537 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,7 +23,6 @@ final class Version20260630074320 extends AbstractMigration
         $this->addSql('ALTER TABLE demande_devis ADD CONSTRAINT FK_7DF9460219EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('ALTER TABLE demande_devis ADD CONSTRAINT FK_7DF946029E45C554 FOREIGN KEY (prestation_id) REFERENCES prestation (id)');
         $this->addSql('ALTER TABLE demande_devis ADD CONSTRAINT FK_7DF946024E853A9E FOREIGN KEY (ouvrier_id) REFERENCES ouvrier (id)');
-        $this->addSql('ALTER TABLE oeuvre ADD titre VARCHAR(255) NOT NULL, ADD image VARCHAR(255) NOT NULL, ADD num_carrousel INT NOT NULL');
         $this->addSql('ALTER TABLE oeuvre ADD CONSTRAINT FK_35FE2EFE9E45C554 FOREIGN KEY (prestation_id) REFERENCES prestation (id)');
     }
 
@@ -34,6 +33,5 @@ final class Version20260630074320 extends AbstractMigration
         $this->addSql('ALTER TABLE demande_devis DROP FOREIGN KEY FK_7DF946029E45C554');
         $this->addSql('ALTER TABLE demande_devis DROP FOREIGN KEY FK_7DF946024E853A9E');
         $this->addSql('ALTER TABLE oeuvre DROP FOREIGN KEY FK_35FE2EFE9E45C554');
-        $this->addSql('ALTER TABLE oeuvre DROP titre, DROP image, DROP num_carrousel');
     }
 }

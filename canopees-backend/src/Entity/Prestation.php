@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('ROLE_ADMIN')"),
+        new Get(),
         new GetCollection(), 
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
@@ -51,15 +51,22 @@ class Prestation
     private Collection $oeuvres;
 
     #[ORM\OneToMany(targetEntity: DemandeDevis::class, mappedBy: 'prestation')]
+    #[Groups(['devis:read'])]
     private Collection $demandesDevis;
 
     public function __construct()
     {
         $this->oeuvres = new ArrayCollection();
         $this->demandesDevis = new ArrayCollection();
+   
     }
 
-    
+   public function __toString(): string
+    {
+        return $this->titre ?? 'Prestation sans titre';
+    }
+
+
     public function getId(): ?int { return $this->id; }
     public function getTitre(): ?string { return $this->titre; }
     public function setTitre(string $titre): static { $this->titre = $titre; return $this; }
@@ -87,6 +94,4 @@ class Prestation
         }
         return $this;
     }
-
-    
 }

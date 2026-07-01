@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function NosTarifs() {
   const [activeModale, setActiveModale] = useState(null);
+  const [tarifs, setTarifs] = useState([]);
 
-  const ouvrirModale = (id) => {
+
+
+useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/tarifs')
+      .then((response) => response.json())
+      .then((data) => setTarifs(data['hydra:member'] || []))
+      .catch((error) => console.error("Erreur lors du fetch des tarifs :", error));
+  }, []);
+
+const ouvrirModale = (id) => {
     setActiveModale(id);
     document.body.style.overflow = "hidden";
   };

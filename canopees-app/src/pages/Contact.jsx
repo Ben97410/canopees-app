@@ -1,24 +1,21 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
+  const [prestations, setPrestations] = useState([]);
 
-  const ouvrirModale = (id) => {
-    const modale = document.getElementById(id);
-    if (modale) {
-      modale.style.display = "block";
-      document.body.style.overflow = "hidden";
-    }
-  };
+  
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/prestations')
+      .then((res) => res.json())
+      .then((data) => {
+        
+        setPrestations(data['hydra:member'] || []);
+      })
+      .catch((err) => console.error("Erreur chargement prestations:", err));
+  }, []);
 
-  const fermerModale = (id) => {
-    const modale = document.getElementById(id);
-    if (modale) {
-      modale.style.display = "none";
-      document.body.style.overflow = "auto";
-    }
-  };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
@@ -26,25 +23,46 @@ export default function Contact() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
+    
+    const payload = {
+      nom: data.nom,
+      prenom: data.prenom,
+      email: data.email,
+      telephone: data.telephone,
+      budget: data.budget,
+      adresse: data.adresse,
+      message: data.message,
+      
+      prestation: `/api/prestations/${data.prestation_id}`,
+      
+      client: "/api/clients/1" 
+    };
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/contact', {
+      const response = await fetch('http://127.0.0.1:8000/api/demande_devis', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        headers: { 
+          'Content-Type': 'application/ld+json',
+          'Accept': 'application/ld+json' 
+        },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         setStatus('success');
       } else {
-        alert("Erreur lors de l'envoi.");
+        const errorData = await response.json();
+        console.error("Détails erreur API:", errorData);
+        alert("Erreur lors de l'envoi. Vérifiez les champs.");
         setStatus('idle');
       }
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur réseau:", error);
       setStatus('idle');
     }
   };
 
+  
   return (
     <main className="page-contact">
       <section className="banniere-contact">
