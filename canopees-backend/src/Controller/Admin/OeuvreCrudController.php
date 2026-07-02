@@ -6,7 +6,7 @@ use App\Entity\Oeuvre;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
@@ -30,8 +30,14 @@ class OeuvreCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/oeuvres')
                 ->setBasePath('uploads/oeuvres'),
                 
-            IntegerField::new('numCarrousel', 'Position Carrousel'),
-            
+       ChoiceField::new('numCarrousel', 'Position Carrousel')
+                ->setChoices([
+                    'Carrousel Principal' => 1,
+                    'Carrousel Jardins' => 2,
+                ])
+                ->renderAsNativeWidget()
+                ->setRequired(true),
+                
             AssociationField::new('prestation', 'Prestation liée'),
         ];
     }
