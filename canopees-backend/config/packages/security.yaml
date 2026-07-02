@@ -20,8 +20,11 @@ security:
         api:
             pattern: ^/api
             stateless: true
-            provider: app_user_provider
-        
+            
+            
+            
+            
+            
 
         main:
             lazy: true
@@ -37,14 +40,20 @@ security:
                 always_remember_me: false
 
     # Note: Only the *first* matching rule is applied
+
     access_control:
-       # 1. Allow public read access to the API (GET methods)
+
+   # 1. Allow public read access (GET) on the entire API
         - { path: ^/api, roles: PUBLIC_ACCESS, methods: [GET] }
         
-        # 2. Require ADMIN role for any other API method (POST, PUT, DELETE, etc.)
+        # 2. Allow public creation (POST) for quote requests
         - { path: ^/api/demande_devis, roles: PUBLIC_ACCESS, methods: [POST] }
         
-        # 3. Standard admin interface protection
+        # 3. Require ROLE_ADMIN for write operations (POST, PUT, DELETE, PATCH)
+        # We target specific paths to ensure public GETs are not blocked
+        - { path: ^/api/oeuvres, roles: ROLE_ADMIN, methods: [POST, PUT, DELETE, PATCH] }
+        
+        # 4. Protect the admin interface
         - { path: ^/admin, roles: ROLE_ADMIN }
         
 when@test:

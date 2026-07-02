@@ -10,14 +10,46 @@ export default function Accueil() {
 useEffect(() => {
     fetch('http://localhost:8000/api/oeuvres')
       .then((response) => response.json())
-      .then((data) => setOeuvres(data))
+      .then((data) => {
+        const items = data.member || []; 
+        console.log("Données trouvées :", items);
+        setOeuvres(items);
+        setLoading(false);
+      })
       .catch((error) => console.error("Erreur API :", error));
   }, []);
 
 
+
+useEffect(() => {
+    if (loading) return; 
+
+    const $carousel = $(".carousel");
+    const $gardenRail = $(".carousel-garden");
+
+    
+    $carousel.empty();
+    $gardenRail.empty();
+
+    oeuvres.forEach(o => {
+      // On construit l'URL complète vers le serveur back-end (Symfony)
+     const imageUrl = `http://localhost:8000/uploads/oeuvres/${o.image}`;
+
+      if (o.numCarrousel === 1) {
+        $carousel.append(`<div class="carousel-slide"><img src="${imageUrl}" alt="${o.titre}" /></div>`);
+      } else if (o.numCarrousel === 2) {
+        $gardenRail.append(`<div class="carousel-slide-garden"><img src="${imageUrl}" alt="${o.titre}" /></div>`);
+      }
+    });
+    
+
+  }, [oeuvres, loading]); 
+
+
+
 useEffect(() => {
 
-    // Gestion du carrousel principal
+    
     const $carousel = $(".carousel");
     if ($carousel.length > 0) {
       let currentIndex = 0;
@@ -39,6 +71,8 @@ useEffect(() => {
     }
 
     // Gestion du carrousel des jardins
+
+
     const $gardenRail = $(".carousel-garden");
     if ($gardenRail.length > 0) {
       let gardenIndex = 0;
@@ -56,27 +90,21 @@ useEffect(() => {
       $("#prevGarden").on("click", () => moveGarden(gardenIndex - 1));
     }
 
+
+
     return () => {
       $("#nextButton, #prevButton, #nextGarden, #prevGarden").off();
     };
-  }, []);
+  }, [oeuvres]);
 
   return (
     <main>
       <div className="nom-entreprise-accueil">
         <h1>Canopées</h1>
-
-        <section className="hero">
+       <section className="hero">
           <button id="prevButton" className="btn-worker">❮</button>
           <div className="carousel-container">
-            <div className="carousel">
-              <div className="carousel-slide"><img src="/images/blackandwhite.jpg" alt="image en noir et blanc" /></div>
-              <div className="carousel-slide"><img src="/images/Men1.png" alt="Homme qui taille une haie en face" /></div>
-              <div className="carousel-slide"><img src="/images/Men2.png" alt="homme qui taille une haie de profil" /></div>
-              <div className="carousel-slide"><img src="/images/Handwork.png" alt="Main d'un homme qui travaille" /></div>
-              <div className="carousel-slide"><img src="/images/treeprunings1.jpg" alt="homme qui elage un arbre" /></div>
-              <div className="carousel-slide"><img src="/images/treeprunings2.jpg" alt="homme qui coupe un arbre" /></div>
-            </div>
+            <div className="carousel"></div>     
           </div>
           <button id="nextButton" className="btn-worker">❯</button>
         </section>
@@ -93,13 +121,7 @@ useEffect(() => {
         <section className="banniere-orange-images-garden">
           <button id="prevGarden" className="btn-garden">❮</button>
           <div className="garden-container">
-            <div className="carousel-garden" id="garden-carousel">
-              <div className="carousel-slide-garden"><img src="/images/garden2.png" alt="jardin fleuris" /></div>
-              <div className="carousel-slide-garden"><img src="/images/garden3.png" alt="jardin fleuris rose" /></div>
-              <div className="carousel-slide-garden"><img src="/images/garden1.png" alt="arbre avec un pont" /></div>
-              <div className="carousel-slide-garden"><img src="/images/empty garden.png" alt="vue d'ensemble jardin" /></div>
-              <div className="carousel-slide-garden"><img src="/images/Garden beautiful.jpg" alt="jolie jardin" /></div>
-            </div>
+            <div className="carousel-garden" id="garden-carousel"></div>   
           </div>
           <button id="nextGarden" className="btn-garden">❯</button>
         </section>
