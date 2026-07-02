@@ -54,6 +54,10 @@ class Client
     #[Groups(['client:read', 'client:write'])]
     private ?string $telephone = null;
 
+    #[ORM\Column(length: 20, unique: true, nullable: true)]
+    #[Groups(['client:read'])]
+    private ?string $numeroClient = null;
+
     #[ORM\OneToMany(targetEntity: DemandeDevis::class, mappedBy: 'client')]
     #[Groups(['client:read'])] 
     private Collection $demandesDevis;
@@ -62,6 +66,15 @@ class Client
     {
         $this->demandesDevis = new ArrayCollection();
     }
+
+ public function generateNumeroClient(): void
+    {
+        if (null === $this->numeroClient) {
+            $this->numeroClient = 'CLI-' . date('Y') . '-' . bin2hex(random_bytes(3));
+        }
+    }
+
+
 
     // Getters et Setters
     public function getId(): ?int { return $this->id; }
@@ -77,6 +90,8 @@ class Client
 
     public function getTelephone(): ?string { return $this->telephone; }
     public function setTelephone(string $telephone): static { $this->telephone = $telephone; return $this; }
+
+    public function getNumeroClient(): ?string { return $this->numeroClient; }
 
     public function getDemandesDevis(): Collection { return $this->demandesDevis; }
 

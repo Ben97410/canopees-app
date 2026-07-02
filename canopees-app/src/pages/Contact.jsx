@@ -10,7 +10,7 @@ export default function Contact() {
       .then((res) => res.json())
       .then((data) => {
         
-        setPrestations(data['hydra:member'] || []);
+        setPrestations(data.member || []);
       })
       .catch((err) => console.error("Erreur chargement prestations:", err));
   }, []);
@@ -39,10 +39,14 @@ export default function Contact() {
       adresse: data.adresse,
       message: data.message,
       
-      prestation: `/api/prestations/${data.prestation_id}`,
+
+      prestation: data.prestation_id,
       
-      client: "/api/clients/1" 
+    
     };
+
+
+
 
     try {
       const response = await fetch('http://127.0.0.1:8000/api/demande_devis', {
@@ -57,6 +61,7 @@ export default function Contact() {
       if (response.ok) {
         setStatus('success');
       } else {
+
         const errorData = await response.json();
         console.error("Détails erreur API:", errorData);
         alert("Erreur lors de l'envoi. Vérifiez les champs.");
@@ -68,7 +73,8 @@ export default function Contact() {
     }
   };
 
-  
+ 
+
   return (
     <main className="page-contact">
       <section className="banniere-contact">
@@ -98,7 +104,7 @@ export default function Contact() {
              <select name="prestation_id" required className="select-prestation">
     <option value="">-- Choisissez une prestation --</option>
     {prestations.map((p) => (
-      <option key={p.id} value={p.id}>
+      <option key={p.id} value={p['@id']}>
         {p.titre}
       </option>
     ))}

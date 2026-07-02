@@ -7,14 +7,15 @@ export default function Prestations() {
 
 /* Initialisation de l'api */
 
-  useEffect(() => {
+useEffect(() => {
     fetch('http://localhost:8000/api/prestations')
       .then(res => res.json())
-      .then(data => setDataApi(data))
-      .catch(err => console.log("API en attente, le site fonctionne en dur."));
+      .then(data => {    
+        setDataApi(data['hydra:member'] || []); 
+      })
+      .catch(err => console.log("Erreur API:", err));
   }, []);
-
-
+  
 /* Modales */
 
 const modalesData = [

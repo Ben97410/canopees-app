@@ -43,7 +43,7 @@ class DemandeDevis
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'demandesDevis')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['devis:read', 'devis:write'])]
     private ?Client $client = null;
 
