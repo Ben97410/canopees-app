@@ -243,6 +243,27 @@ padding:0;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
+.contenu-modale h3 {
+    color: #a9f10f;          
+    font-family: 'Arial', sans-serif; 
+    font-size: 28px;           
+    text-transform: uppercase; 
+    text-align: center;        
+    margin-bottom: 25px;       
+    padding-bottom: 10px;      
+    border-bottom: 2px solid #ffffff; 
+}
+
+
+
+.description-modale {
+    color: white;           
+    text-align: left;       
+    line-height: 1.6;       
+    font-family: sans-serif;
+    margin: 20px 0;
+    font-size: 30px;        
+}
 
 
 .fermer {
@@ -275,13 +296,6 @@ padding:0;
     border-radius: 8px;
     border: 2px solid #f1a80f;
 }
-
-.contenu-modale h3 {
-    color: white;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
 
 
 .select-prestation {

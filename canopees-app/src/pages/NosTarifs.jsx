@@ -81,7 +81,9 @@ export default function NosTarifs() {
               
               <h3>{tarif.titreBloc}</h3>
               
-              <div dangerouslySetInnerHTML={{ __html: tarif.texteTarifs }} />
+              <div
+               className="description-modale"
+               dangerouslySetInnerHTML={{ __html: tarif.texteTarifs }} />
               
               <div className="galerie-photos">
                 {tarif.imagesGalerie && tarif.imagesGalerie.length > 0 ? (
