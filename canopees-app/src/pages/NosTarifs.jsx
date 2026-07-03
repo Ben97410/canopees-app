@@ -10,12 +10,17 @@ export default function NosTarifs() {
       .then((data) => {
         setTarifs(data.member || data['hydra:member'] || []);
       })
-      .catch((error) => console.error("Erreur lors du fetch des tarifs :", error));
+      .catch((error) => console.error("Erreur fetch :", error));
   }, []);
 
   const ouvrirModale = (id) => {
-    setActiveModale(id);
-    document.body.style.overflow = "hidden";
+    fetch(`http://127.0.0.1:8000/api/tarifs/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setActiveModale(data);
+        document.body.style.overflow = "hidden";
+      })
+      .catch((error) => console.error("Erreur détail :", error));
   };
 
   const fermerModale = () => {
@@ -31,14 +36,7 @@ export default function NosTarifs() {
         {tarifs.slice(0, 3).map((tarif) => (
           <div key={tarif.id} className="bloc-membre">
             <div className="photo-prestations">
-              {tarif.image ? (
-                <img 
-                  src={`http://127.0.0.1:8000/uploads/tarifs/${tarif.image}`} 
-                  alt={tarif.titreBloc} 
-                />
-              ) : (
-                <div className="image-placeholder">Image manquante</div>
-              )}
+              <img src={`http://127.0.0.1:8000/uploads/tarifs/${tarif.image}`} alt={tarif.titreBloc} loading="lazy" />
               <p>{tarif.titreBloc}</p>
             </div>
             <button className="btn-selectionner" onClick={() => ouvrirModale(tarif.id)}>
@@ -48,20 +46,13 @@ export default function NosTarifs() {
         ))}
       </section>
 
-      {/* SECTION 2 : Les tarifs suivants */}
+      {/* SECTION 2 : Les tarifs suivants  */}
       <section className="banniere-orange-2">
         <div className="contenu-texte-bas">
           {tarifs.slice(3).map((tarif) => (
             <div key={tarif.id} className="bloc-membre">
               <div className="photo-prestations">
-                {tarif.image ? (
-                  <img 
-                    src={`http://127.0.0.1:8000/uploads/tarifs/${tarif.image}`} 
-                    alt={tarif.titreBloc} 
-                  />
-                ) : (
-                  <div className="image-placeholder">Image manquante</div>
-                )}
+                <img src={`http://127.0.0.1:8000/uploads/tarifs/${tarif.image}`} alt={tarif.titreBloc} loading="lazy" />
                 <p>{tarif.titreBloc}</p>
               </div>
               <button className="btn-selectionner" onClick={() => ouvrirModale(tarif.id)}>
@@ -72,36 +63,27 @@ export default function NosTarifs() {
         </div>
       </section>
 
-      {/* MODALES DYNAMIQUES */}
-      {tarifs.map((tarif) => (
-        activeModale === tarif.id && (
-          <div key={tarif.id} className="modale" style={{ display: "block" }} onClick={fermerModale}>
-            <div className="contenu-modale" onClick={(e) => e.stopPropagation()}>
-              <span className="fermer" onClick={fermerModale}>&times;</span>
-              
-              <h3>{tarif.titreBloc}</h3>
-              
-              <div
-               className="description-modale"
-               dangerouslySetInnerHTML={{ __html: tarif.texteTarifs }} />
-              
-              <div className="galerie-photos">
-                {tarif.imagesGalerie && tarif.imagesGalerie.length > 0 ? (
-                  tarif.imagesGalerie.map((imgObj) => (
-                    <img 
-                      key={imgObj.id} 
-                      src={`http://127.0.0.1:8000/uploads/galerie/${imgObj.image}`} 
-                      alt="Chantier" 
-                    />
-                  ))
-                ) : (
-                  <p>Aucune photo disponible pour ce tarif.</p>
-                )}
-              </div>
+      {/* MODALE DYNAMIQUE */}
+      {activeModale && (
+        <div className="modale" style={{ display: "block" }} onClick={fermerModale}>
+          <div className="contenu-modale" onClick={(e) => e.stopPropagation()}>
+            <span className="fermer" onClick={fermerModale}>&times;</span>
+            
+            <h3>{activeModale.titreBloc}</h3>
+            <div className="description-modale" dangerouslySetInnerHTML={{ __html: activeModale.texteTarifs }} />
+            
+            <div className="galerie-photos">
+              {activeModale.imagesGalerie?.length > 0 ? (
+                activeModale.imagesGalerie.map((imgObj) => (
+                  <img key={imgObj.id} src={`http://127.0.0.1:8000/uploads/galerie/${imgObj.image}`} alt="Chantier" loading="lazy" />
+                ))
+              ) : (
+                <p>Aucune photo disponible.</p>
+              )}
             </div>
           </div>
-        )
-      ))}
+        </div>
+      )}
     </main>
   );
 }

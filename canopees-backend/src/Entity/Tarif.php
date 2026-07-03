@@ -17,8 +17,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: TarifRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+
+        new Get(normalizationContext: ['groups' => ['tarif:read', 'tarif:detail']]), 
+        new GetCollection(normalizationContext: ['groups' => ['tarif:read']]),
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
         new Delete(security: "is_granted('ROLE_ADMIN')")
@@ -50,8 +51,11 @@ class Tarif
     #[Groups(['tarif:read', 'tarif:write'])]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'tarif', targetEntity: GalleryImageModale::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['tarif:read', 'tarif:write'])]
+    #[ORM\OneToMany(mappedBy: 'tarif', targetEntity: GalleryImageModale::class, cascade: ['persist', 'remove'], orphanRemoval: true,
+    fetch: "EAGER"
+    )]
+
+    #[Groups(['tarif:detail'])] //
     private Collection $imagesGalerie;
 
     public function __construct()
