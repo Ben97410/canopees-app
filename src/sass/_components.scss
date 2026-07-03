@@ -1,0 +1,293 @@
+
+.btn-selectionner {
+    background-color:#ff0000;
+    color:black;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-selectionner:hover {
+    background-color: #692b85;
+    color: white;
+    transform: scale(1.1);
+}
+
+
+
+/* bouton devis */
+
+.btn-envoyer {
+    background-color: #692b85;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.image-large-separateur {
+    width: 770px;
+    height: 110px;
+    margin: 0 auto 40px auto;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.image-large-separateur img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+
+
+/* bouton garden */
+
+#prevGarden, #nextGarden {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: #692b85;
+    cursor: pointer;
+    outline: none;
+}
+
+#prevGarden {
+    left: -60px;
+}
+
+#nextGarden {
+    right: -60px;
+    position: absolute;
+}
+
+
+
+
+/* bouton worker */
+
+
+.btn-worker {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background:none; 
+    color: #692b85;
+    border: none;
+    padding:0;
+    cursor: pointer;
+    font-size: 2.5rem;
+    border-radius: 5px;
+    outline: none;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.btn-worker:hover,
+.btn-worker:focus, 
+.btn-worker:active {
+    background: none ;
+    color: #692b85;
+    outline: none;
+    box-shadow: none;
+}
+
+    
+
+
+#prevButton {
+    left: -60px;
+}
+
+#nextButton {
+    right: -60px;
+}
+
+
+
+/* carousel worker*/
+
+.carousel-container {
+    width:244px;
+    height:168px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+
+    
+}
+
+.carousel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: max-content;
+    transition: transform 0.8s ease-in-out;
+    gap:30px;
+}
+
+.carousel-slide {
+max-width: 244px;
+min-width:244px;
+height: 168px;
+flex-shrink: 0;
+margin: 0;
+padding:0;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+    display: block;
+}
+
+
+
+/* carousel garden */
+
+.banniere-orange-images-garden {
+    background-color: #f1a80f;
+    max-width: 800px;
+    height: 200px;
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible; 
+    border-radius: 10px;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.garden-container {
+    width: 244px;
+    height: 168px;
+    overflow: hidden; 
+    position: relative;
+}
+
+.carousel-garden {
+    display: flex ;
+    flex-direction: row ;
+    flex-wrap: nowrap;
+    width: max-content ;
+    gap: 20px;
+    transition: transform 0.8s ease-in-out;
+    padding: 0;
+    margin: 0;
+}
+
+.carousel-slide-garden {
+    width: 244px ;
+    min-width: 244px ;
+    height: 168px;
+    flex-shrink: 0 
+}
+
+.carousel-slide-garden img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+
+
+
+
+/* Modales */
+
+
+.modale {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.contenu-modale {
+    background-color:#2a4b9b;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 70%;
+    max-width: 800px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.fermer {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.fermer:hover {
+    color: #ff0000;
+}
+
+.galerie-photos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.galerie-photos img {
+    width: 100%;
+    max-width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #f1a80f;
+}
+
+.contenu-modale h3 {
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+
+
+.select-prestation {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

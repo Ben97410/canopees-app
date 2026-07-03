@@ -1,0 +1,487 @@
+/* Style page d'accueil */
+
+/* Banniere orange 1 slider */
+
+.hero {
+    background-color: #f1a80f; 
+    max-width:800px;
+    width:100%;
+    height: 200px;
+    margin:50px auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position :relative;
+    overflow: visible;
+    border-radius :10px;         
+}
+
+.hero .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+/* Pages Contact section formulaire */
+
+
+
+.banniere-contact {
+    background-color: #f1a80f;
+    margin: 50px auto;
+    width: 769px;
+    height: auto;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.formulaire-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-contact {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 50px;
+    gap: 12px;
+}
+
+.groupe-input {
+    display: flex;
+    gap: 15px;
+}
+
+.form-contact input, 
+.form-contact textarea,
+.label-date {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+
+/* section choix date  */
+
+.label-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    background: #ffffff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.label-date label {
+    font-size: 11px;
+    color:#b23b53;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.label-date input[type="date"] {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    color: #333;
+    font-size: 15px;
+    padding: 0;
+}
+
+.label-date:hover {
+    border-color: #692b85;
+    box-shadow: 0 3px 10px rgba(105, 43, 133, 0.15);
+}
+
+.label-date input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(24%) sepia(51%) saturate(2361%) hue-rotate(264deg) brightness(91%) contrast(89%);
+}
+
+
+.banniere-orange-images {
+    background-color: #f1a80f;
+    max-width: 650px;
+    width: 100%;
+    height: 300px; 
+    margin: 40px auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding: 15px 0;
+    box-sizing: border-box;
+}
+
+.galerie-photos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.galerie-photos img {
+    width: 180px; 
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid white;
+}
+
+
+
+
+
+/* Page qui sommes nous */
+
+/* banniere 1 */
+
+
+.banniere-orange-1, 
+.banniere-orange-2{
+    background-color: #f1a80f;
+    width: 1300px;
+    max-width: 1300px;
+    height: auto;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap:120px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+/* photo equipe Bob et tom */
+
+.photos-equipe {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.membre-equipe {
+    position: relative;
+    width:240px;
+    height: 206px;
+}
+
+.membre-equipe img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border:2px solid white;
+    box-sizing: border-box;
+}
+
+.membre-equipe p {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%, -50%);
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+}
+
+/* Banniere orange style texte pres du footer */
+
+.contenu-texte-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 60px;
+    box-sizing: border-box;
+}
+
+.bloc-info1 p, 
+.bloc-info2 p {
+    color: rgb(206, 35, 35);
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+}
+
+.bloc-info1 {
+    text-align: left;
+}
+
+.bloc-info2 {
+    text-align: right;
+    margin-top: 20px;
+}
+
+
+
+/* 2 eme bannieres */
+
+
+
+.banniere-orange-2 {
+    background-color: #f1a80f;
+    width: 770px;
+    height: 350px;
+    margin: 40px auto 10px auto;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenu-texte-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 60px;
+    box-sizing: border-box;
+}
+
+.bloc-info1, .bloc-info2 {
+    width: 250px;
+}
+
+.bloc-info1 {
+    text-align: left;
+}
+
+.bloc-info2 {
+    text-align: right;
+}
+
+.bloc-info1 p, .bloc-info2 p {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 0;
+}
+
+
+
+/* Page nos prestations */
+
+
+.banniere-orange-1 {
+    
+    background-color: #f1a80f;
+    width: 770px; 
+    height: 350px;
+    margin: 40px auto;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.bloc-membre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.photo-prestations {
+    position: relative;
+    text-align: center;
+    width: 166px;
+    height: 141px;
+}
+
+.photo-prestations img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 3px solid white;
+    border-radius: 5px;
+}
+
+.photo-prestations p {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+
+    
+    text-align: center;
+    width: 100%;
+    margin: 0;
+
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 10;
+}
+
+
+
+/* titre canopées */
+
+.nom-entreprise-accueil {
+    width: 100%;
+    max-width: 769px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+}
+
+.nom-entreprise-accueil h1 {
+    color: #692b85;
+    font-size: 55px;
+    width: 100%;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding-left: 0;
+    letter-spacing: 5px;
+    margin: 0;
+    font-style: italic;
+}
+
+
+
+.presentation {
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 20px; 
+}
+
+.presentation h1 {
+    color: #692b85; 
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-style: italic; 
+}
+
+.presentation p {
+    color: #333;
+    font-size: 20px;
+    line-height: 2; 
+    text-align: justify;
+}
+
+
+
+/* Prestations texte */
+
+.separateur-prestations {
+    width: 770px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.separateur-prestations h2 {
+    color: #2a4b9b;
+    font-size: 35px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+
+
+/* section carte google */
+
+.carte-contact {
+    position: relative;
+    cursor: pointer;
+    margin-top: -40px;
+   
+    
+}
+
+.carte-contact img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+   
+   
+}
+
+.texte-carte {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(105, 43, 133, 0.85);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.page-contact .image-large-separateur {
+    position: relative;
+    width: 770px;
+    height: 110px;
+    margin: 0 auto 20px auto !important;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.page-contact .texte-sur-image {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #692b85;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.page-contact .image-large-separateur img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+
+
+
+ 
