@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: OeuvreRepository::class)]
 #[ApiResource(
     operations: [
-       new Get(),
+        new Get(),
         new GetCollection(),
         new Post(security: "is_granted('ROLE_ADMIN')"),
         new Put(security: "is_granted('ROLE_ADMIN')"),
@@ -53,19 +53,66 @@ class Oeuvre
     #[Groups(['oeuvre:read', 'oeuvre:write'])]
     private ?Prestation $prestation = null;
 
+    // --- Méthode virtuelle pour faciliter l'affichage dans React ---
+    #[Groups(['prestation:read', 'oeuvre:read'])]
+    public function getOeuvreImageApi(): ?string
+    {
+        return $this->image;
+    }
+
     public function __toString(): string
     {
         return $this->titre ?? 'Oeuvre sans titre';
     }
 
-    // ... (Tes getters et setters restent inchangés)
-    public function getId(): ?int { return $this->id; }
-    public function getTitre(): ?string { return $this->titre; }
-    public function setTitre(string $titre): static { $this->titre = $titre; return $this; }
-    public function getImage(): ?string { return $this->image; }
-    public function setImage(string $image): static { $this->image = $image; return $this; }
-    public function getNumCarrousel(): ?int { return $this->numCarrousel; }
-    public function setNumCarrousel(int $numCarrousel): static { $this->numCarrousel = $numCarrousel; return $this; }
-    public function getPrestation(): ?Prestation { return $this->prestation; }
-    public function setPrestation(?Prestation $prestation): static { $this->prestation = $prestation; return $this; }
+    // --- Getters et Setters ---
+
+    public function getId(): ?int 
+    { 
+        return $this->id; 
+    }
+
+    public function getTitre(): ?string 
+    { 
+        return $this->titre; 
+    }
+
+    public function setTitre(string $titre): static 
+    { 
+        $this->titre = $titre; 
+        return $this; 
+    }
+
+    public function getImage(): ?string 
+    { 
+        return $this->image; 
+    }
+
+    public function setImage(string $image): static 
+    { 
+        $this->image = $image; 
+        return $this; 
+    }
+
+    public function getNumCarrousel(): ?int 
+    { 
+        return $this->numCarrousel; 
+    }
+
+    public function setNumCarrousel(int $numCarrousel): static 
+    { 
+        $this->numCarrousel = $numCarrousel; 
+        return $this; 
+    }
+
+    public function getPrestation(): ?Prestation 
+    { 
+        return $this->prestation; 
+    }
+
+    public function setPrestation(?Prestation $prestation): static 
+    { 
+        $this->prestation = $prestation; 
+        return $this; 
+    }
 }

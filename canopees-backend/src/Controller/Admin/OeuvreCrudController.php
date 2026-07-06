@@ -22,23 +22,25 @@ class OeuvreCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             
-            
             TextField::new('titre', 'Titre de l\'œuvre'),
             
-           
+            
             ImageField::new('image', 'Image')
                 ->setUploadDir('public/uploads/oeuvres')
-                ->setBasePath('uploads/oeuvres'),
-                
-       ChoiceField::new('numCarrousel', 'Position Carrousel')
+                ->setBasePath('uploads/oeuvres')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired($pageName === 'new'), 
+            
+            ChoiceField::new('numCarrousel', 'Position Carrousel')
                 ->setChoices([
                     'Carrousel Principal' => 1,
                     'Carrousel Jardins' => 2,
                 ])
-                ->renderAsNativeWidget()
+                ->renderExpanded() 
                 ->setRequired(true),
                 
-            AssociationField::new('prestation', 'Prestation liée'),
+            AssociationField::new('prestation', 'Prestation liée')
+                ->setRequired(true),
         ];
     }
 }

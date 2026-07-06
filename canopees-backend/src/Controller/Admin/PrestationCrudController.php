@@ -6,7 +6,9 @@ use App\Entity\Prestation;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class PrestationCrudController extends AbstractCrudController
 {
@@ -19,10 +21,26 @@ class PrestationCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-
+            
             TextField::new('titre', 'Nom de la prestation'),
 
-            TextEditorField::new('contenuDetaille', 'Description'),
+            ImageField::new('image', 'Image de couverture')
+                ->setBasePath('uploads/prestations/')
+                ->setUploadDir('public/uploads/prestations/')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),
+
+            TextEditorField::new('contenuDetaille', 'Description détaillée'),
+
+            CollectionField::new('imagesModale', 'Galerie Photos (Modale)')
+                ->useEntryCrudForm(ImagePrestationCrudController::class)
+                ->setEntryIsComplex(true)
+                ->allowAdd()
+                ->allowDelete()
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                ])
+                ->setHelp('Ajoutez ici les images qui apparaîtront dans la fenêtre modale de cette prestation.'),
         ];
     }
 }
