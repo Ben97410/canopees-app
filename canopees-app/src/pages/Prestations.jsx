@@ -8,7 +8,7 @@ export default function Prestations() {
     fetch('http://localhost:8000/api/prestations')
       .then((res) => res.json())
       .then((data) => {
-        // API Platform utilise souvent 'hydra:member' pour les collections
+        
         const result = data["hydra:member"] || data.member || [];
         setDataApi(result);
       })
@@ -70,7 +70,7 @@ export default function Prestations() {
         activeModale === modale.id && (
           <div 
             key={modale.id} 
-            className="modale" 
+            className="modale modale-prestation" 
             style={{ display: "block" }} 
             onClick={() => setActiveModale(null)}
           >
@@ -79,7 +79,9 @@ export default function Prestations() {
               
               <h3>{modale.titre}</h3>
               
-              <div dangerouslySetInnerHTML={{ __html: modale.contenuDetaille || "" }} />
+              <div
+               className="description-modale"
+               dangerouslySetInnerHTML={{ __html: modale.contenuDetaille || "" }} />
               
               <div className="galerie-photos">
                 {/* Utilisation de la relation corrigée : imagesModale */}

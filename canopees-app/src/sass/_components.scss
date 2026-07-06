@@ -265,6 +265,33 @@ padding:0;
     font-size: 18px;        
 }
 
+// Modale prestations texte et presentations
+
+
+.modale-prestation .contenu-modale .titre-detail-modale {
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 20px 0 10px 0;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+
+.modale-prestation .description-modale,
+.modale-prestation .description-modale p,
+.modale-prestation .description-modale div,
+.modale-prestation .description-modale span {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+// bouton fermeture
 
 .fermer {
     position: absolute;
