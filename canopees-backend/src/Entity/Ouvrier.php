@@ -60,7 +60,7 @@ class Ouvrier
 
     public function __toString(): string
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->getPrenom() . ' ' . $this->getNom() . ' (' . ($this->getRole() ?? 'Aucun rôle') . ')';
     }
 
     // --- Getters et Setters ---

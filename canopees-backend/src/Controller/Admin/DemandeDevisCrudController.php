@@ -36,10 +36,12 @@ class DemandeDevisCrudController extends AbstractCrudController
             TelephoneField::new('telephone'),
             TextField::new('adresse'),
             TextField::new('budget')->setRequired(false),
+
             
            AssociationField::new('ouvrier')
          ->setLabel('Ouvrier assigné')
-         ->setRequired(false),
+         ->setRequired(false)
+         ->setHelp('Le rôle est indiqué entre parenthèses pour faciliter votre choix'),
 
             DateField::new('debutTravaux')->setRequired(false),
 
