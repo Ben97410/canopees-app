@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 export default function Contact() {
   const [status, setStatus] = useState('idle');
   const [prestations, setPrestations] = useState([]);
- 
+  const [selectedPrestation, setSelectedPrestation] = useState("");
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/prestations')
@@ -20,30 +20,36 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+   
 
-    if (!data.prestation_id) {
+    const form = e.target;
+
+   if (!selectedPrestation) {
         alert("Veuillez sélectionner une prestation.");
         setStatus('idle');
         return;
     }
-
     
-    const payload = {
-      nom: data.nom,
-      prenom: data.prenom,
-      email: data.email,
-      telephone: data.telephone,
-      budget: data.budget,
-      adresse: data.adresse,
-      message: data.message,
-      
-
-      prestation: data.prestation_id,
-      
     
-    };
+  const rawDate = form.debut_travaux.value;
+  const formattedDate = rawDate ? rawDate.split('T')[0] : null;
+
+  const payload = {
+    nom: form.nom.value,
+    prenom: form.prenom.value,
+    email: form.email.value,
+    telephone: form.telephone.value,
+    budget: form.budget.value,
+    adresse: form.adresse.value,
+    message: form.message.value,
+    debutTravaux: formattedDate, 
+    prestation: selectedPrestation 
+  };
+
+  console.log("Envoi du payload :", JSON.stringify(payload, null, 2));
+    
+
+
 
 
 
@@ -100,15 +106,22 @@ export default function Contact() {
                   <input type="tel" name="telephone" placeholder="Téléphone" required />
                 </div>
                 <input type="text" name="budget" placeholder="Budget estimé (ex: 500€)" />
-                <input type="text" name="adresse" placeholder="Adresse des travaux (Ville, Code Postal)" required />
-             <select name="prestation_id" required className="select-prestation">
-    <option value="">-- Choisissez une prestation --</option>
-    {prestations.map((p) => (
-      <option key={p.id} value={p['@id']}>
-        {p.titre}
-      </option>
-    ))}
-  </select>
+             <select 
+  name="prestation_id" 
+  required 
+  className="select-prestation"
+  value={selectedPrestation}                                    
+  onChange={(e) => setSelectedPrestation(e.target.value)}       
+>
+  <option value="">-- Choisissez une prestation --</option>
+  {prestations.map((p) => (
+    <option key={p.id} value={p['@id']}>
+      {p.titre}
+    </option>
+  ))}
+</select>  
+ <input type="text" name="adresse" placeholder="Adresse des travaux (Ville, Code Postal)" required />
+           
               <div className="label-date">
                   <label htmlFor="date-debut">Début souhaité des travaux :</label>
                   <input type="date" id="date-debut" name="debut_travaux" />

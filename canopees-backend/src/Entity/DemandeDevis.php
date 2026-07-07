@@ -6,9 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
+use App\Controller\Admin\CreateDevisController;
 use App\Repository\DemandeDevisRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,21 +17,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: DemandeDevisRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
-        new GetCollection(
-            uriTemplate: '/clients/{client_id}/demandes_devis',
-            uriVariables: [
-                'client_id' => new Link(fromClass: Client::class, toProperty: 'client')
-            ],
-            security: "is_granted('ROLE_ADMIN')"
-        )
-    ],
-    normalizationContext: ['groups' => ['devis:read']],
-    denormalizationContext: ['groups' => ['devis:write']]
+        new Get(normalizationContext: ['groups' => ['devis:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['devis:read']]),
+        new Post(
+            controller: CreateDevisController::class,
+            denormalizationContext: ['groups' => ['devis:write']],
+            
+        ),
+        new Delete(security: "is_granted('ROLE_ADMIN')")
+    ]
 )]
 class DemandeDevis
 {
@@ -42,19 +35,16 @@ class DemandeDevis
     #[Groups(['devis:read'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'demandesDevis')]
-    #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['devis:read', 'devis:write'])]
+    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
+    #[Groups(['devis:read'])]
     private ?Client $client = null;
 
-    #[ORM\ManyToOne(targetEntity: Prestation::class, inversedBy: 'demandesDevis')]
+    #[ORM\ManyToOne(targetEntity: Prestation::class, cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['devis:read', 'devis:write'])]
+    #[Assert\NotNull(message: "La prestation est obligatoire.")]
     private ?Prestation $prestation = null;
-
-    #[ORM\ManyToOne(targetEntity: Ouvrier::class, inversedBy: 'demandesDevis')]
-    #[Groups(['devis:read', 'devis:write'])]
-    private ?Ouvrier $ouvrier = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
@@ -62,12 +52,18 @@ class DemandeDevis
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Groups(['devis:read', 'devis:write'])]
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 255)]
     #[Assert\Email]
+    #[Assert\NotBlank]
     #[Groups(['devis:read', 'devis:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Length(min: 10, max: 20)]
+    #[Assert\NotBlank]
     #[Groups(['devis:read', 'devis:write'])]
     private ?string $telephone = null;
 
@@ -75,19 +71,25 @@ class DemandeDevis
     #[Groups(['devis:read', 'devis:write'])]
     private ?string $budget = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Groups(['devis:read', 'devis:write'])]
+    private ?string $adresse = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['devis:read', 'devis:write'])]
+    private ?\DateTimeInterface $debutTravaux = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['devis:read', 'devis:write'])]
+    private ?string $ouvrier = null;
+
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Groups(['devis:read', 'devis:write'])]
     private ?string $message = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['devis:read', 'devis:write'])]
-    private ?string $adresse = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['devis:read', 'devis:write'])]
-    private ?string $prenom = null;
-
+    // --- Getters et Setters ---
 
     public function getId(): ?int
     {
@@ -99,7 +101,7 @@ class DemandeDevis
         return $this->client;
     }
 
-    public function setClient(?Client $client): static
+    public function setClient(?Client $client): self
     {
         $this->client = $client;
 
@@ -111,21 +113,9 @@ class DemandeDevis
         return $this->prestation;
     }
 
-    public function setPrestation(?Prestation $prestation): static
+    public function setPrestation(?Prestation $prestation): self
     {
         $this->prestation = $prestation;
-
-        return $this;
-    }
-
-    public function getOuvrier(): ?Ouvrier
-    {
-        return $this->ouvrier;
-    }
-
-    public function setOuvrier(?Ouvrier $ouvrier): static
-    {
-        $this->ouvrier = $ouvrier;
 
         return $this;
     }
@@ -135,9 +125,21 @@ class DemandeDevis
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
@@ -147,7 +149,7 @@ class DemandeDevis
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -159,7 +161,7 @@ class DemandeDevis
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): static
+    public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -171,9 +173,45 @@ class DemandeDevis
         return $this->budget;
     }
 
-    public function setBudget(?string $budget): static
+    public function setBudget(?string $budget): self
     {
         $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getDebutTravaux(): ?\DateTimeInterface
+    {
+        return $this->debutTravaux;
+    }
+
+    public function setDebutTravaux(?\DateTimeInterface $debutTravaux): self
+    {
+        $this->debutTravaux = $debutTravaux;
+
+        return $this;
+    }
+
+    public function getOuvrier(): ?string
+    {
+        return $this->ouvrier;
+    }
+
+    public function setOuvrier(?string $ouvrier): self
+    {
+        $this->ouvrier = $ouvrier;
 
         return $this;
     }
@@ -183,34 +221,9 @@ class DemandeDevis
         return $this->message;
     }
 
-    public function setMessage(string $message): static
+    public function setMessage(string $message): self
     {
         $this->message = $message;
-
-        return $this;
-    }
-
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?string $adresse): static
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): static
-    {
-        $this->prenom = $prenom;
 
         return $this;
     }

@@ -32,30 +32,30 @@ class Client
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['client:read'])]
+    #[Groups(['client:read', 'devis:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['client:read', 'client:write'])]
+    #[Groups(['client:read', 'client:write', 'devis:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['client:read', 'client:write'])]
+    #[Groups(['client:read', 'client:write', 'devis:read'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email]
-    #[Groups(['client:read', 'client:write'])]
+    #[Groups(['client:read', 'client:write', 'devis:read'])]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['client:read', 'client:write'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['client:read', 'client:write', 'devis:read'])]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 20, unique: true, nullable: true)]
-    #[Groups(['client:read'])]
+    #[ORM\Column(length: 30, unique: true, nullable: true)]
+    #[Groups(['client:read', 'devis:read'])]
     private ?string $numeroClient = null;
 
     #[ORM\OneToMany(targetEntity: DemandeDevis::class, mappedBy: 'client')]
@@ -67,32 +67,33 @@ class Client
         $this->demandesDevis = new ArrayCollection();
     }
 
- public function generateNumeroClient(): void
+    public function generateNumeroClient(): void
     {
         if (null === $this->numeroClient) {
             $this->numeroClient = 'CLI-' . date('Y') . '-' . bin2hex(random_bytes(3));
         }
     }
 
-
-
     // Getters et Setters
     public function getId(): ?int { return $this->id; }
 
     public function getNom(): ?string { return $this->nom; }
-    public function setNom(string $nom): static { $this->nom = $nom; return $this; }
+    public function setNom(string $nom): self { $this->nom = $nom; return $this; }
 
     public function getPrenom(): ?string { return $this->prenom; }
-    public function setPrenom(string $prenom): static { $this->prenom = $prenom; return $this; }
+    public function setPrenom(string $prenom): self { $this->prenom = $prenom; return $this; }
 
     public function getEmail(): ?string { return $this->email; }
-    public function setEmail(string $email): static { $this->email = $email; return $this; }
+    public function setEmail(string $email): self { $this->email = $email; return $this; }
 
     public function getTelephone(): ?string { return $this->telephone; }
-    public function setTelephone(string $telephone): static { $this->telephone = $telephone; return $this; }
+    public function setTelephone(?string $telephone): self { $this->telephone = $telephone; return $this; }
 
     public function getNumeroClient(): ?string { return $this->numeroClient; }
 
+    /**
+     * @return Collection<int, DemandeDevis>
+     */
     public function getDemandesDevis(): Collection { return $this->demandesDevis; }
 
     public function __toString(): string
