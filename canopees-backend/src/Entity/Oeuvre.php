@@ -53,7 +53,7 @@ class Oeuvre
     #[Groups(['oeuvre:read', 'oeuvre:write'])]
     private ?Prestation $prestation = null;
 
-    // --- Méthode virtuelle pour faciliter l'affichage dans React ---
+    
     #[Groups(['prestation:read', 'oeuvre:read'])]
     public function getOeuvreImageApi(): ?string
     {
