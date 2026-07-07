@@ -47,15 +47,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:write'])]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read', 'user:write'])]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read', 'user:write'])]
+    private ?string $prenom = null;
+
     
+    public function __toString(): string
+    {
+        return ($this->prenom ?? '') . ' ' . ($this->nom ?? 'Utilisateur sans nom');
+    }
+
+    
+    public function getId(): ?int { return $this->id; }
 
     public function getEmail(): ?string { return $this->email; }
     public function setEmail(string $email): static { $this->email = $email; return $this; }
+
     public function getUserIdentifier(): string { return (string) $this->email; }
+    
     public function getRoles(): array { $roles = $this->roles; $roles[] = 'ROLE_USER'; return array_unique($roles); }
     public function setRoles(array $roles): static { $this->roles = $roles; return $this; }
+
     public function getPassword(): ?string { return $this->password; }
     public function setPassword(string $password): static { $this->password = $password; return $this; }
+
+    public function getNom(): ?string { return $this->nom; }
+    public function setNom(?string $nom): static { $this->nom = $nom; return $this; }
+
+    public function getPrenom(): ?string { return $this->prenom; }
+    public function setPrenom(?string $prenom): static { $this->prenom = $prenom; return $this; }
 
     public function eraseCredentials(): void { /* ... */ }
 }

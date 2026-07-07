@@ -80,14 +80,16 @@ class DemandeDevis
     #[Groups(['devis:read', 'devis:write'])]
     private ?\DateTimeInterface $debutTravaux = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['devis:read', 'devis:write'])]
-    private ?string $ouvrier = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Groups(['devis:read', 'devis:write'])]
     private ?string $message = null;
+
+    #[ORM\ManyToOne]
+    private ?Ouvrier $ouvrier = null;
+
+    
 
     // --- Getters et Setters ---
 
@@ -204,17 +206,7 @@ class DemandeDevis
         return $this;
     }
 
-    public function getOuvrier(): ?string
-    {
-        return $this->ouvrier;
-    }
-
-    public function setOuvrier(?string $ouvrier): self
-    {
-        $this->ouvrier = $ouvrier;
-
-        return $this;
-    }
+    
 
     public function getMessage(): ?string
     {
@@ -227,4 +219,17 @@ class DemandeDevis
 
         return $this;
     }
+
+    public function getOuvrier(): ?Ouvrier
+    {
+        return $this->ouvrier;
+    }
+
+    public function setOuvrier(?Ouvrier $ouvrier): static
+    {
+        $this->ouvrier = $ouvrier;
+
+        return $this;
+    }
+
 }

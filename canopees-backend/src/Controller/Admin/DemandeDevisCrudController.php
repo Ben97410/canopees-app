@@ -9,8 +9,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class DemandeDevisCrudController extends AbstractCrudController
 {
@@ -36,14 +37,13 @@ class DemandeDevisCrudController extends AbstractCrudController
             TextField::new('adresse'),
             TextField::new('budget')->setRequired(false),
             
-           
-            TextField::new('ouvrier')->setRequired(false),
+           AssociationField::new('ouvrier')
+         ->setLabel('Ouvrier assigné')
+         ->setRequired(false),
 
-           
             DateField::new('debutTravaux')->setRequired(false),
 
-           
-            TextEditorField::new('message'),
+           TextEditorField::new('message'),
         ];
     }
 }
